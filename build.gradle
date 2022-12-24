@@ -1,0 +1,60 @@
+buildscript {
+    ext {
+        springBootVer = '2.5.4'
+        camunda = '7.16.0'
+        spin = '1.16.0'
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version "$springBootVer"
+    id 'io.spring.dependency-management' version "1.0.11.RELEASE"
+    id 'java'
+}
+
+group = 'com.github.voofai'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    //spring
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    //camunda
+    implementation "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:$camunda"
+    implementation "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:$camunda"
+    implementation "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:$camunda"
+    implementation "org.camunda.bpm:camunda-engine-plugin-spin:$camunda"
+    implementation "org.camunda.spin:camunda-spin-core:$spin"
+    implementation "org.camunda.spin:camunda-spin-dataformat-json-jackson:$spin"
+//    implementation "org.camunda.spin:camunda-spin-dataformat-all:$spin"
+
+    implementation 'com.sun.xml.bind:jaxb-impl:3.0.2'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
+    testImplementation "org.camunda.bpm:camunda-bpm-assert:$camunda"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:$camunda"
+
+    //db
+    runtimeOnly 'com.h2database:h2'
+
+    //lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

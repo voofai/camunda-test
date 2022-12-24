@@ -1,0 +1,17 @@
+#spring.datasource.url: jdbc:h2:mem:camunda-h2-database;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+spring.datasource.url: jdbc:h2:./camunda-h2-database;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+
+spring:
+  jpa:
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+camunda:
+  bpm:
+    admin-user:
+      id: admin
+      password: admin
+    job-execution:
+      max-wait: 3000
