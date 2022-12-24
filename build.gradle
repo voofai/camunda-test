@@ -2,7 +2,7 @@ buildscript {
     ext {
         springBootVer = '2.5.4'
         camunda = '7.16.0'
-        spin = '1.16.0'
+        spin = '1.18.0'
     }
 }
 
@@ -38,17 +38,20 @@ dependencies {
     implementation "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:$camunda"
     implementation "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:$camunda"
     implementation "org.camunda.bpm:camunda-engine-plugin-spin:$camunda"
+
+    //spin
     implementation "org.camunda.spin:camunda-spin-core:$spin"
     implementation "org.camunda.spin:camunda-spin-dataformat-json-jackson:$spin"
 //    implementation "org.camunda.spin:camunda-spin-dataformat-all:$spin"
 
     implementation 'com.sun.xml.bind:jaxb-impl:3.0.2'
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
-    testImplementation "org.camunda.bpm:camunda-bpm-assert:$camunda"
-    testImplementation "org.springframework.boot:spring-boot-starter-test:$camunda"
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
+    testImplementation 'org.camunda.bpm.assert:camunda-bpm-assert:15.0.0'
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
 
     //db
-    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.h2database:h2:1.4.200'
+    implementation 'org.flywaydb:flyway-core:8.0.0'
 
     //lombok
     compileOnly 'org.projectlombok:lombok'

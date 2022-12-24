@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1dg0bi6" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
-  <bpmn:process id="order-processing" isExecutable="true">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1dg0bi6" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="ORDER_1" isExecutable="true">
     <bpmn:startEvent id="OrderStarted" name="Начало бронирования">
       <bpmn:outgoing>Flow_1a8b930</bpmn:outgoing>
     </bpmn:startEvent>
@@ -15,7 +15,7 @@
       <bpmn:outgoing>Flow_17yomem</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_1hp1csb" sourceRef="BillTimeout" targetRef="CancelOrder" />
-    <bpmn:sequenceFlow id="Flow_1xzwcfd" sourceRef="PaymentReceived" targetRef="SendTicketToClient" />
+    <bpmn:sequenceFlow id="Flow_1xzwcfd" sourceRef="PAYMENT_RECEIVED" targetRef="SendTicketToClient" />
     <bpmn:sequenceFlow id="Flow_1a5uxx2" sourceRef="SendTicketToClient" targetRef="OrderPlaced" />
     <bpmn:sequenceFlow id="Flow_1yaikoo" name="Да" sourceRef="CheckPlaces" targetRef="InvoiceTheClient">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{isPlacesAreFree == true}</bpmn:conditionExpression>
@@ -50,12 +50,12 @@
       <bpmn:outgoing>Flow_1npbwzo</bpmn:outgoing>
     </bpmn:eventBasedGateway>
     <bpmn:sequenceFlow id="Flow_0gl6r3u" sourceRef="InvoiceTheClient" targetRef="WaitForPayment" />
-    <bpmn:intermediateCatchEvent id="PaymentReceived" name="Счет оплачен">
+    <bpmn:intermediateCatchEvent id="PAYMENT_RECEIVED" name="Счет оплачен">
       <bpmn:incoming>Flow_1ygu5ps</bpmn:incoming>
       <bpmn:outgoing>Flow_1xzwcfd</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1ydcxi6" messageRef="Message_1z0suks" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:sequenceFlow id="Flow_1ygu5ps" sourceRef="WaitForPayment" targetRef="PaymentReceived" />
+    <bpmn:sequenceFlow id="Flow_1ygu5ps" sourceRef="WaitForPayment" targetRef="PAYMENT_RECEIVED" />
     <bpmn:intermediateCatchEvent id="BillTimeout" name="10 секунд">
       <bpmn:incoming>Flow_1npbwzo</bpmn:incoming>
       <bpmn:outgoing>Flow_1hp1csb</bpmn:outgoing>
@@ -65,28 +65,70 @@
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="Flow_1npbwzo" sourceRef="WaitForPayment" targetRef="BillTimeout" />
   </bpmn:process>
-  <bpmn:message id="Message_1z0suks" name="PaymentReceived" />
+  <bpmn:message id="Message_1z0suks" name="PAYMENT_RECEIVED" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="order-processing">
-      <bpmndi:BPMNEdge id="Flow_0gl6r3u_di" bpmnElement="Flow_0gl6r3u">
-        <di:waypoint x="650" y="117" />
-        <di:waypoint x="705" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1b0301b_di" bpmnElement="Flow_1b0301b">
-        <di:waypoint x="370" y="117" />
-        <di:waypoint x="425" y="117" />
-      </bpmndi:BPMNEdge>
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ORDER_1">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="OrderStarted">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="161" y="142" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ktmw5b_di" bpmnElement="OrderPlaced">
+        <dc:Bounds x="1122" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1102" y="142" width="75" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0qs90e2_di" bpmnElement="CheckPlaces" isMarkerVisible="true">
+        <dc:Bounds x="425" y="92" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="422" y="62" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1e1ku2d_di" bpmnElement="OrderCanceled">
+        <dc:Bounds x="1122" y="282" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1103" y="252" width="75" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19xunc2_di" bpmnElement="ReservePlaces">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gswhsj_di" bpmnElement="InvoiceTheClient">
+        <dc:Bounds x="550" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_11cugwn_di" bpmnElement="SendTicketToClient">
+        <dc:Bounds x="930" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1e8wfcx_di" bpmnElement="CancelOrder">
+        <dc:Bounds x="930" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_05fyasq_di" bpmnElement="WaitForPayment">
+        <dc:Bounds x="705" y="92" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="697" y="69" width="69" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_042wrgi_di" bpmnElement="PAYMENT_RECEIVED">
+        <dc:Bounds x="812" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="796" y="142" width="70" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1azovj6_di" bpmnElement="BillTimeout">
+        <dc:Bounds x="712" y="282" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="709" y="325" width="50" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1a8b930_di" bpmnElement="Flow_1a8b930">
         <di:waypoint x="215" y="117" />
         <di:waypoint x="270" y="117" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1ygu5ps_di" bpmnElement="Flow_1ygu5ps">
-        <di:waypoint x="755" y="117" />
-        <di:waypoint x="812" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1npbwzo_di" bpmnElement="Flow_1npbwzo">
-        <di:waypoint x="730" y="142" />
-        <di:waypoint x="730" y="282" />
+      <bpmndi:BPMNEdge id="Flow_1b0301b_di" bpmnElement="Flow_1b0301b">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="425" y="117" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1hp1csb_di" bpmnElement="Flow_1hp1csb">
         <di:waypoint x="748" y="300" />
@@ -120,60 +162,18 @@
           <dc:Bounds x="770" y="356" width="55" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="OrderStarted">
-        <dc:Bounds x="179" y="99" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="161" y="142" width="74" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1ktmw5b_di" bpmnElement="OrderPlaced">
-        <dc:Bounds x="1122" y="99" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1102" y="142" width="75" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_042wrgi_di" bpmnElement="PaymentReceived">
-        <dc:Bounds x="812" y="99" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="796" y="142" width="70" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0qs90e2_di" bpmnElement="CheckPlaces" isMarkerVisible="true">
-        <dc:Bounds x="425" y="92" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="422" y="62" width="57" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_05fyasq_di" bpmnElement="WaitForPayment">
-        <dc:Bounds x="705" y="92" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="697" y="69" width="69" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_19xunc2_di" bpmnElement="ReservePlaces">
-        <dc:Bounds x="270" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0gswhsj_di" bpmnElement="InvoiceTheClient">
-        <dc:Bounds x="550" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_11cugwn_di" bpmnElement="SendTicketToClient">
-        <dc:Bounds x="930" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1azovj6_di" bpmnElement="BillTimeout">
-        <dc:Bounds x="712" y="282" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="709" y="325" width="50" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1e8wfcx_di" bpmnElement="CancelOrder">
-        <dc:Bounds x="930" y="260" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1e1ku2d_di" bpmnElement="OrderCanceled">
-        <dc:Bounds x="1122" y="282" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1103" y="252" width="75" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0gl6r3u_di" bpmnElement="Flow_0gl6r3u">
+        <di:waypoint x="650" y="117" />
+        <di:waypoint x="705" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ygu5ps_di" bpmnElement="Flow_1ygu5ps">
+        <di:waypoint x="755" y="117" />
+        <di:waypoint x="812" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1npbwzo_di" bpmnElement="Flow_1npbwzo">
+        <di:waypoint x="730" y="142" />
+        <di:waypoint x="730" y="282" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
